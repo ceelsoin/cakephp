@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
@@ -190,7 +191,9 @@ trait DateFormatTrait
      */
     protected function _formatObject($date, $format, $locale)
     {
-        $pattern = $dateFormat = $timeFormat = $calendar = null;
+        $pattern = '';
+        $dateFormat = $timeFormat = IntlDateFormatter::FULL;
+        $calendar = null;
 
         if (is_array($format)) {
             list($dateFormat, $timeFormat) = $format;
@@ -201,6 +204,7 @@ trait DateFormatTrait
             $pattern = $format;
         }
 
+        $locale = (string)$locale;
         if (preg_match('/@calendar=(japanese|buddhist|chinese|persian|indian|islamic|hebrew|coptic|ethiopic)/', $locale)) {
             $calendar = IntlDateFormatter::TRADITIONAL;
         } else {
@@ -302,7 +306,8 @@ trait DateFormatTrait
     public static function parseDateTime($time, $format = null)
     {
         $dateFormat = $format ?: static::$_toStringFormat;
-        $timeFormat = $pattern = null;
+        $timeFormat = null;
+        $pattern = '';
 
         if (is_array($dateFormat)) {
             list($newDateFormat, $timeFormat) = $dateFormat;
@@ -319,8 +324,9 @@ trait DateFormatTrait
         }
 
         $defaultTimezone = static::$_isDateInstance ? 'UTC' : date_default_timezone_get();
+        $locale = (string)static::$defaultLocale;
         $formatter = datefmt_create(
-            static::$defaultLocale,
+            $locale,
             $dateFormat,
             $timeFormat,
             $defaultTimezone,
