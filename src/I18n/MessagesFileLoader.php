@@ -89,7 +89,7 @@ class MessagesFileLoader
      * @param string $extension The file extension to use. This will also be mapped
      * to a messages parser class.
      */
-    public function __construct($name, $locale, $extension = 'po')
+    public function __construct(string $name, string $locale, string $extension = 'po')
     {
         $this->_name = $name;
         $this->_locale = $locale;
@@ -104,7 +104,7 @@ class MessagesFileLoader
      * @throws \RuntimeException if no file parser class could be found for the specified
      * file extension.
      */
-    public function __invoke()
+    public function __invoke(): Package
     {
         $folders = $this->translationsFolders();
         $ext = $this->_extension;
@@ -147,7 +147,7 @@ class MessagesFileLoader
      *
      * @return array The list of folders where the translation file should be looked for
      */
-    public function translationsFolders()
+    public function translationsFolders(): array
     {
         $locale = Locale::parseLocale($this->_locale) + ['region' => null];
 

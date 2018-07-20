@@ -48,7 +48,7 @@ class ChainMessagesLoader
      * @return \Aura\Intl\Package
      * @throws \RuntimeException if any of the loaders in the chain is not a valid callable
      */
-    public function __invoke()
+    public function __invoke(): Package
     {
         foreach ($this->_loaders as $k => $loader) {
             if (!is_callable($loader)) {

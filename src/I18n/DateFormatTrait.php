@@ -70,7 +70,7 @@ trait DateFormatTrait
      *
      * @return string|null The default locale string to be used or null.
      */
-    public static function getDefaultLocale()
+    public static function getDefaultLocale(): ?string
     {
         return static::$defaultLocale;
     }
@@ -81,7 +81,7 @@ trait DateFormatTrait
      * @param string|null $locale The default locale string to be used or null.
      * @return void
      */
-    public static function setDefaultLocale($locale = null)
+    public static function setDefaultLocale(string $locale = null): string
     {
         static::$defaultLocale = $locale;
     }
@@ -97,7 +97,7 @@ trait DateFormatTrait
      * @param string|null $locale The locale name in which the date should be displayed (e.g. pt-BR)
      * @return string Formatted date string
      */
-    public function nice($timezone = null, $locale = null)
+    public function nice($timezone = null, ?string $locale = null): string
     {
         return $this->i18nFormat(static::$niceFormat, $timezone, $locale);
     }
@@ -158,7 +158,7 @@ trait DateFormatTrait
      * @param string|null $locale The locale name in which the date should be displayed (e.g. pt-BR)
      * @return string Formatted and translated date string
      */
-    public function i18nFormat($format = null, $timezone = null, $locale = null)
+    public function i18nFormat($format = null, $timezone = null, ?string $locale = null): string
     {
         if ($format === Time::UNIX_TIMESTAMP_FORMAT) {
             return $this->getTimestamp();
@@ -187,7 +187,7 @@ trait DateFormatTrait
      * @param string $locale The locale name in which the date should be displayed.
      * @return string
      */
-    protected function _formatObject($date, $format, $locale)
+    protected function _formatObject($date, $format, $locale): string
     {
         $pattern = $dateFormat = $timeFormat = $calendar = null;
 
@@ -238,7 +238,7 @@ trait DateFormatTrait
     /**
      * {@inheritDoc}
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->i18nFormat();
     }
@@ -249,7 +249,7 @@ trait DateFormatTrait
      *
      * @return void
      */
-    public static function resetToStringFormat()
+    public static function resetToStringFormat(): void
     {
         static::setToStringFormat([IntlDateFormatter::SHORT, IntlDateFormatter::SHORT]);
     }
@@ -260,7 +260,7 @@ trait DateFormatTrait
      * @param string|array|int $format Format.
      * @return void
      */
-    public static function setToStringFormat($format)
+    public static function setToStringFormat($format): void
     {
         static::$_toStringFormat = $format;
     }
@@ -271,7 +271,7 @@ trait DateFormatTrait
      * @param string|array|int $format Format.
      * @return void
      */
-    public static function setJsonEncodeFormat($format)
+    public static function setJsonEncodeFormat($format): void
     {
         static::$_jsonEncodeFormat = $format;
     }
@@ -298,7 +298,7 @@ trait DateFormatTrait
      * @param string|array|null $format Any format accepted by IntlDateFormatter.
      * @return static|null
      */
-    public static function parseDateTime($time, $format = null)
+    public static function parseDateTime(string $time, $format = null)
     {
         $dateFormat = $format ?: static::$_toStringFormat;
         $timeFormat = $pattern = null;
@@ -358,7 +358,7 @@ trait DateFormatTrait
      * @param string|int|null $format Any format accepted by IntlDateFormatter.
      * @return static|null
      */
-    public static function parseDate($date, $format = null)
+    public static function parseDate(string $date, $format = null)
     {
         if (is_int($format)) {
             $format = [$format, -1];
@@ -388,7 +388,7 @@ trait DateFormatTrait
      * @param string|int|null $format Any format accepted by IntlDateFormatter.
      * @return static|null
      */
-    public static function parseTime($time, $format = null)
+    public static function parseTime(string $time, $format = null)
     {
         if (is_int($format)) {
             $format = [-1, $format];
@@ -403,7 +403,7 @@ trait DateFormatTrait
      *
      * @return string
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): string
     {
         return $this->i18nFormat(static::$_jsonEncodeFormat);
     }
@@ -414,7 +414,7 @@ trait DateFormatTrait
      * @param \Cake\I18n\RelativeTimeFormatter|null $formatter The formatter instance when setting.
      * @return \Cake\I18n\RelativeTimeFormatter The formatter instance.
      */
-    public static function diffFormatter($formatter = null)
+    public static function diffFormatter(?RelativeTimeFormatter $formatter = null): RelativeTimeFormatter
     {
         if ($formatter === null) {
             // Use the static property defined in chronos.
@@ -433,7 +433,7 @@ trait DateFormatTrait
      *
      * @return array
      */
-    public function __debugInfo()
+    public function __debugInfo(): array
     {
         return [
             'time' => $this->toIso8601String(),

@@ -134,7 +134,7 @@ class PluralRules
      * @link http://localization-guide.readthedocs.org/en/latest/l10n/pluralforms.html
      * @link https://developer.mozilla.org/en-US/docs/Mozilla/Localization/Localization_and_Plurals#List_of_Plural_Rules
      */
-    public static function calculate($locale, $n)
+    public static function calculate(string $locale, $n): int
     {
         $locale = strtolower($locale);
 

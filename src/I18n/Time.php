@@ -129,7 +129,7 @@ class Time extends MutableDateTime implements JsonSerializable
      * @param string|null $locale The locale name in which the date should be displayed (e.g. pt-BR)
      * @return string Formatted date string
      */
-    public function nice($timezone = null, $locale = null)
+    public function nice($timezone = null, $locale = null): string
     {
         return $this->i18nFormat(static::$niceFormat, $timezone, $locale);
     }
@@ -139,7 +139,7 @@ class Time extends MutableDateTime implements JsonSerializable
      *
      * @return bool
      */
-    public function isThisWeek()
+    public function isThisWeek(): bool
     {
         return static::now($this->getTimezone())->format('W o') === $this->format('W o');
     }
@@ -149,7 +149,7 @@ class Time extends MutableDateTime implements JsonSerializable
      *
      * @return bool
      */
-    public function isThisMonth()
+    public function isThisMonth(): bool
     {
         return static::now($this->getTimezone())->format('m Y') === $this->format('m Y');
     }
@@ -159,7 +159,7 @@ class Time extends MutableDateTime implements JsonSerializable
      *
      * @return bool
      */
-    public function isThisYear()
+    public function isThisYear(): bool
     {
         return static::now($this->getTimezone())->format('Y') === $this->format('Y');
     }
@@ -170,7 +170,7 @@ class Time extends MutableDateTime implements JsonSerializable
      * @param bool $range Range.
      * @return int|array 1, 2, 3, or 4 quarter of year, or array if $range true
      */
-    public function toQuarter($range = false)
+    public function toQuarter(bool $range = false)
     {
         $quarter = ceil($this->format('m') / 3);
         if ($range === false) {
@@ -195,7 +195,7 @@ class Time extends MutableDateTime implements JsonSerializable
      *
      * @return string UNIX timestamp
      */
-    public function toUnixString()
+    public function toUnixString(): string
     {
         return $this->format('U');
     }
@@ -237,7 +237,7 @@ class Time extends MutableDateTime implements JsonSerializable
      * @param array $options Array of options.
      * @return string Relative time string.
      */
-    public function timeAgoInWords(array $options = [])
+    public function timeAgoInWords(array $options = []): string
     {
         return static::diffFormatter()->timeAgoInWords($this, $options);
     }
@@ -257,7 +257,7 @@ class Time extends MutableDateTime implements JsonSerializable
      * @return array List of timezone identifiers
      * @since 2.2
      */
-    public static function listTimezones($filter = null, $country = null, $options = [])
+    public static function listTimezones($filter = null, ?string $country = null, array $options = []): array
     {
         if (is_bool($options)) {
             $options = [

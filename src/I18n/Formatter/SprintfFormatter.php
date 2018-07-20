@@ -31,7 +31,7 @@ class SprintfFormatter implements FormatterInterface
      * @param array $vars The list of values to interpolate in the message
      * @return string The formatted message
      */
-    public function format($locale, $message, array $vars)
+    public function format($locale, $message, array $vars): string
     {
         unset($vars['_singular']);
 

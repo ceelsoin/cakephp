@@ -52,11 +52,10 @@ class MoFileParser
      * was created on. Both 32bit and 64bit systems are supported.
      *
      * @param resource $resource The file to be parsed.
-     *
      * @return array List of messages extracted from the file
      * @throws \RuntimeException If stream content has an invalid format.
      */
-    public function parse($resource)
+    public function parse($resource): array
     {
         $stream = fopen($resource, 'rb');
 
@@ -151,7 +150,7 @@ class MoFileParser
      * @param bool $isBigEndian Whether or not the current platform is Big Endian
      * @return int
      */
-    protected function _readLong($stream, $isBigEndian)
+    protected function _readLong($stream, bool $isBigEndian): int
     {
         $result = unpack($isBigEndian ? 'N1' : 'V1', fread($stream, 4));
         $result = current($result);

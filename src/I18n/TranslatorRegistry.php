@@ -17,6 +17,7 @@ namespace Cake\I18n;
 use Aura\Intl\Exception;
 use Aura\Intl\FormatterLocator;
 use Aura\Intl\PackageLocator;
+use Aura\Intl\TranslatorInterface;
 use Aura\Intl\TranslatorLocator;
 use Cake\Cache\CacheEngine;
 
@@ -110,7 +111,7 @@ class TranslatorRegistry extends TranslatorLocator
      * @param \Cake\Cache\CacheEngine $cacher The cacher instance.
      * @return void
      */
-    public function setCacher(CacheEngine $cacher)
+    public function setCacher(CacheEngine $cacher): void
     {
         $this->_cacher = $cacher;
     }
@@ -125,7 +126,7 @@ class TranslatorRegistry extends TranslatorLocator
      * @throws \Aura\Intl\Exception If no translator with that name could be found
      * for the given locale.
      */
-    public function get($name, $locale = null)
+    public function get(string $name, string $locale = null): TranslatorInterface
     {
         if (!$name) {
             return null;
@@ -161,7 +162,7 @@ class TranslatorRegistry extends TranslatorLocator
      * locale.
      * @return \Aura\Intl\TranslatorInterface A translator object.
      */
-    protected function _getTranslator($name, $locale)
+    protected function _getTranslator(string $name, ?string $locale): TranslatorInterface
     {
         try {
             return parent::get($name, $locale);
@@ -186,7 +187,7 @@ class TranslatorRegistry extends TranslatorLocator
      * @param callable $loader A callable object that should return a Package
      * @return void
      */
-    public function registerLoader($name, callable $loader)
+    public function registerLoader(string $name, callable $loader): void
     {
         $this->_loaders[$name] = $loader;
     }
@@ -200,7 +201,7 @@ class TranslatorRegistry extends TranslatorLocator
      * @param string|null $name The name of the formatter to use.
      * @return string The name of the formatter.
      */
-    public function defaultFormatter($name = null)
+    public function defaultFormatter(?string $name = null): string
     {
         if ($name === null) {
             return $this->_defaultFormatter;
@@ -215,7 +216,7 @@ class TranslatorRegistry extends TranslatorLocator
      * @param bool $enable flag to enable or disable fallback
      * @return void
      */
-    public function useFallback($enable = true)
+    public function useFallback(bool $enable = true): void
     {
         $this->_useFallback = $enable;
     }
@@ -226,9 +227,9 @@ class TranslatorRegistry extends TranslatorLocator
      *
      * @param string $name The translation package name.
      * @param string $locale The locale to create the translator for.
-     * @return \Aura\Intl\Translator
+     * @return \Aura\Intl\TranslatorInterface
      */
-    protected function _fallbackLoader($name, $locale)
+    protected function _fallbackLoader($name, $locale): TranslatorInterface
     {
         return $this->_loaders[$this->_fallbackLoader]($name, $locale);
     }
@@ -238,7 +239,7 @@ class TranslatorRegistry extends TranslatorLocator
      *
      * @return callable
      */
-    protected function _partialLoader()
+    protected function _partialLoader(): callable
     {
         return function ($name, $locale) {
             return $this->_fallbackLoader($name, $locale);
@@ -253,7 +254,7 @@ class TranslatorRegistry extends TranslatorLocator
      * @param string $locale The locale that should be built the package for
      * @return \Aura\Intl\TranslatorInterface A translator object.
      */
-    protected function _getFromLoader($name, $locale)
+    protected function _getFromLoader(string $name, string $locale): TranslatorInterface
     {
         $loader = $this->_loaders[$name]($name, $locale);
         $package = $loader;
@@ -278,7 +279,7 @@ class TranslatorRegistry extends TranslatorLocator
      * @param callable $loader invokable loader
      * @return callable loader
      */
-    public function setLoaderFallback($name, callable $loader)
+    public function setLoaderFallback(string $name, callable $loader): callable
     {
         $fallbackDomain = 'default';
         if (!$this->_useFallback || $name === $fallbackDomain) {

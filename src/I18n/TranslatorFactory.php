@@ -49,7 +49,7 @@ class TranslatorFactory extends BaseTranslatorFactory
         Package $package,
         FormatterInterface $formatter,
         ?TranslatorInterface $fallback = null
-    ) {
+    ): Translator {
         $class = $this->class;
         if ($fallback !== null && get_class($fallback) !== $class) {
             throw new RuntimeException(sprintf(
