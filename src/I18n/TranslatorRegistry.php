@@ -126,7 +126,7 @@ class TranslatorRegistry extends TranslatorLocator
      * @throws \Aura\Intl\Exception If no translator with that name could be found
      * for the given locale.
      */
-    public function get(string $name, string $locale = null): TranslatorInterface
+    public function get($name, $locale = null)
     {
         if (!$name) {
             return null;
@@ -229,7 +229,7 @@ class TranslatorRegistry extends TranslatorLocator
      * @param string $locale The locale to create the translator for.
      * @return \Aura\Intl\TranslatorInterface
      */
-    protected function _fallbackLoader($name, $locale): TranslatorInterface
+    protected function _fallbackLoader($name, $locale)
     {
         return $this->_loaders[$this->_fallbackLoader]($name, $locale);
     }

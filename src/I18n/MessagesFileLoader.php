@@ -104,7 +104,7 @@ class MessagesFileLoader
      * @throws \RuntimeException if no file parser class could be found for the specified
      * file extension.
      */
-    public function __invoke(): Package
+    public function __invoke()
     {
         $folders = $this->translationsFolders();
         $ext = $this->_extension;
